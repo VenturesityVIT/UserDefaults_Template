@@ -15,8 +15,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        //setting the window manually,make sure to delete the main storyboard name to make this work
+        self.window = UIWindow.init(frame: UIScreen.main.bounds)
+        let sb:UIStoryboard = UIStoryboard.init(name: "Main", bundle: nil)
+        if isloggedIn(){
+            let homeVc = sb.instantiateViewController(withIdentifier: "HomeViewController")
+            self.window?.rootViewController = homeVc
+        }else{
+            let loginVc = sb.instantiateViewController(withIdentifier: "LoginController")
+            self.window?.rootViewController = loginVc
+        }
+        self.window?.makeKeyAndVisible()
+
         return true
+    }
+    
+    //custom function
+    func isloggedIn() -> Bool{
+        print(UserDefaults.standard.bool(forKey: "isLoggedIn"))
+        return UserDefaults.standard.bool(forKey: "isLoggedIn")
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
